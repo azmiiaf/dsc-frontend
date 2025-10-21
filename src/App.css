@@ -1,0 +1,76 @@
+/* App-specific styles can be added here if needed */
+
+/* Mobile-first responsive styles */
+@media (max-width: 640px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+  
+  /* Improve touch targets for mobile */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent horizontal scrolling */
+  body {
+    overflow-x: hidden;
+  }
+}
+
+@media (min-width: 641px) {
+  .mobile-only {
+    display: none;
+  }
+  
+  .desktop-only {
+    display: block;
+  }
+}
+
+/* Smooth transitions for sidebar */
+.sidebar-transition {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Prevent content from being hidden behind fixed elements */
+.main-content {
+  position: relative;
+  z-index: 10;
+}
+
+/* Ensure proper spacing on mobile */
+@media (max-width: 768px) {
+  .main-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Improve readability on mobile */
+@media (max-width: 640px) {
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+  }
+  
+  p {
+    line-height: 1.4;
+  }
+}
+
+/* Optimize images for mobile */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent text overflow */
+.overflow-prevention {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}

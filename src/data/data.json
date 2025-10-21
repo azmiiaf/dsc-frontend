@@ -1,0 +1,290 @@
+{
+  "title": "Materi Dasar HTML",
+  "description": "Belajar dasar-dasar HTML untuk membangun struktur halaman web.",
+  "author": "Belajar Frontend",
+  "last_updated": "2025-10-19",
+  "topics": [
+    {
+      "id": 1,
+      "title": "Pengenalan HTML",
+      "content": "HTML (HyperText Markup Language) adalah bahasa markup yang digunakan untuk membuat struktur halaman web. HTML menggunakan tag untuk menentukan elemen pada halaman."
+    },
+    {
+      "id": 2,
+      "title": "Struktur Dasar Dokumen HTML",
+      "content": "Struktur HTML terdiri dari <!DOCTYPE html>, <html>, <head>, dan <body>. Head berisi metadata, sedangkan body berisi konten yang tampil di browser."
+    },
+    {
+      "id": 3,
+      "title": "Elemen dan Tag HTML",
+      "content": "Setiap elemen HTML ditulis dengan tag pembuka dan penutup, contoh: <p>Ini paragraf</p>. Beberapa elemen bersifat self-closing seperti <img> dan <br>."
+    },
+    {
+      "id": 4,
+      "title": "Teks dan Heading",
+      "content": "Gunakan <h1> sampai <h6> untuk heading, dan <p> untuk paragraf. Heading digunakan untuk menandai judul atau subjudul konten."
+    },
+    {
+      "id": 5,
+      "title": "Link dan Gambar",
+      "content": "Tag <a> digunakan untuk membuat hyperlink, sedangkan <img> digunakan untuk menampilkan gambar. Contoh: <a href='https://example.com'>Kunjungi</a>."
+    },
+    {
+      "id": 6,
+      "title": "List (Daftar)",
+      "content": "HTML menyediakan ordered list (<ol>) dan unordered list (<ul>) dengan item di dalam <li>. Contoh: <ul><li>Item 1</li><li>Item 2</li></ul>."
+    },
+    {
+      "id": 7,
+      "title": "Table (Tabel)",
+      "content": "Gunakan <table> dengan <tr> (baris), <th> (header), dan <td> (data) untuk menampilkan data tabular."
+    },
+    {
+      "id": 8,
+      "title": "Formulir HTML",
+      "content": "Gunakan <form> untuk mengumpulkan input dari pengguna. Elemen yang sering digunakan adalah <input>, <textarea>, <select>, dan <button>."
+    },
+    {
+      "id": 9,
+      "title": "Semantic HTML",
+      "content": "Semantic HTML menggunakan elemen yang memiliki makna khusus seperti <header>, <nav>, <article>, <section>, dan <footer> agar struktur web lebih jelas."
+    },
+    {
+      "id": 10,
+      "title": "Best Practice HTML",
+      "content": "Gunakan indentasi yang rapi, hindari penggunaan tag yang sudah usang, dan pastikan dokumen HTML valid menggunakan validator seperti validator.w3.org."
+    }
+  ],
+  "css_topics": [
+    {
+      "id": 1,
+      "title": "CSS Box Model",
+      "content": "Box Model adalah konsep fundamental CSS yang terdiri dari margin, border, padding, dan content. Memahami Box Model sangat penting untuk layouting.",
+      "example": ".box {\n  margin: 20px;\n  border: 2px solid #333;\n  padding: 15px;\n  width: 300px;\n  height: 200px;\n}",
+      "html_example": "<div class=\"box\">\n  Ini adalah contoh box dengan CSS Box Model\n</div>"
+    },
+    {
+      "id": 2,
+      "title": "CSS Flexbox",
+      "content": "Flexbox adalah layout model CSS3 untuk mendesain layout responsive yang efisien. Sangat berguna untuk alignment dan distribution space.",
+      "example": ".container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  gap: 10px;\n}\n\n.item {\n  flex: 1;\n}",
+      "html_example": "<div class=\"container\">\n  <div class=\"item\">Item 1</div>\n  <div class=\"item\">Item 2</div>\n  <div class=\"item\">Item 3</div>\n</div>"
+    },
+    {
+      "id": 3,
+      "title": "CSS Grid",
+      "content": "CSS Grid Layout adalah sistem layout 2D yang powerful untuk membuat layout kompleks. Banyak digunakan di project modern.",
+      "example": ".grid-container {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n}\n\n.grid-item {\n  grid-column: span 1;\n}",
+      "html_example": "<div class=\"grid-container\">\n  <div class=\"grid-item\">Item 1</div>\n  <div class=\"grid-item\">Item 2</div>\n  <div class=\"grid-item\">Item 3</div>\n  <div class=\"grid-item\">Item 4</div>\n  <div class=\"grid-item\">Item 5</div>\n  <div class=\"grid-item\">Item 6</div>\n</div>"
+    },
+    {
+      "id": 4,
+      "title": "CSS Responsive Design",
+      "content": "Media queries memungkinkan website beradaptasi dengan berbagai ukuran layar. Essential untuk mobile-first development.",
+      "example": "@media (max-width: 768px) {\n  .container {\n    flex-direction: column;\n  }\n  \n  .grid-container {\n    grid-template-columns: 1fr;\n  }\n}",
+      "html_example": "<div class=\"container\">\n  <div class=\"item\">Item 1</div>\n  <div class=\"item\">Item 2</div>\n  <div class=\"item\">Item 3</div>\n</div>"
+    },
+    {
+      "id": 5,
+      "title": "CSS Variables",
+      "content": "CSS Custom Properties (variables) memungkinkan nilai reuse dan mudah maintenance. Digunakan di banyak framework modern.",
+      "example": ":root {\n  --primary-color: #007bff;\n  --secondary-color: #6c757d;\n  --font-family: 'Arial', sans-serif;\n}\n\n.button {\n  background-color: var(--primary-color);\n  font-family: var(--font-family);\n}",
+      "html_example": "<button class=\"button\">\n  Button dengan CSS Variables\n</button>"
+    },
+    {
+      "id": 6,
+      "title": "CSS Positioning",
+      "content": "Understanding position properties (static, relative, absolute, fixed, sticky) crucial untuk complex layouts.",
+      "example": ".header {\n  position: fixed;\n  top: 0;\n  width: 100%;\n  z-index: 1000;\n}\n\n.modal {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}",
+      "html_example": "<header class=\"header\">\n  Header Fixed\n</header>\n\n<div class=\"modal\">\n  Modal Content\n</div>"
+    }
+  ],
+  "javascript_topics": [
+    {
+      "id": 1,
+      "title": "Variabel JavaScript",
+      "content": "Variabel digunakan untuk menyimpan data. JavaScript memiliki 3 cara deklarasi: var, let, dan const. Let dan const adalah ES6 modern dengan scope block.",
+      "example": "// Deklarasi variabel\nlet nama = 'John';\nconst usia = 25;\nvar alamat = 'Jakarta';\n\n// Re-assignment\nnama = 'Doe';\n// usia = 26; // Error: const tidak bisa di-reassign",
+      "html_example": "<script>\n  let message = 'Hello World!';\n  console.log(message);\n</script>"
+    },
+    {
+      "id": 2,
+      "title": "Operator dan Perbandingan",
+      "content": "JavaScript memiliki operator aritmatika, assignment, comparison, logical, dan ternary. Penting memahami perbedaan == (value) dan === (value + type).",
+      "example": "// Aritmatika\nlet a = 10 + 5; // 15\nlet b = 10 * 2; // 20\n\n// Perbandingan\nconsole.log(5 == '5');  // true (value)\nconsole.log(5 === '5'); // false (value + type)\n\n// Ternary\nlet status = (usia >= 17) ? 'Dewasa' : 'Anak';",
+      "html_example": "<script>\n  let x = 10;\n  let y = '10';\n  console.log(x == y);  // true\n  console.log(x === y); // false\n</script>"
+    },
+    {
+      "id": 3,
+      "title": "Perulangan dan Pengkondisian",
+      "content": "Perulangan (for, while, do-while) untuk eksekusi berulang. Pengkondisian (if, else if, else, switch) untuk kontrol flow program.",
+      "example": "// For loop\nfor (let i = 0; i < 5; i++) {\n  console.log(i);\n}\n\n// If condition\nif (usia >= 18) {\n  console.log('Dewasa');\n} else {\n  console.log('Anak');\n}\n\n// Switch case\nswitch (hari) {\n  case 'Senin':\n    console.log('Start week');\n    break;\n  default:\n    console.log('Other day');\n}",
+      "html_example": "<script>\n  for (let i = 1; i <= 3; i++) {\n    console.log('Iterasi ' + i);\n  }\n</script>"
+    },
+    {
+      "id": 4,
+      "title": "Menggabungkan String",
+      "content": "String concatenation bisa menggunakan operator + atau template literals (ES6) dengan backticks yang lebih modern dan powerful.",
+      "example": "// Concatenation dengan +\nlet namaLengkap = namaDepan + ' ' + namaBelakang;\n\n// Template Literals (ES6)\nlet greeting = `Halo, ${namaDepan} ${namaBelakang}!`;\n\n// Multi-line string\nlet alamat = `Jalan Merdeka No. 123\nKota Jakarta Selatan`;",
+      "html_example": "<script>\n  let firstName = 'John';\n  let lastName = 'Doe';\n  let fullName = `${firstName} ${lastName}`;\n  console.log(fullName); // John Doe\n</script>"
+    },
+    {
+      "id": 5,
+      "title": "Function JavaScript",
+      "content": "Function adalah blok kode yang dapat dipanggil berulang. Ada function declaration, expression, arrow function (ES6), dan parameters/arguments.",
+      "example": "// Function declaration\nfunction sapa(nama) {\n  return `Halo ${nama}!`;\n}\n\n// Arrow function (ES6)\nconst tambah = (a, b) => a + b;\n\n// Function expression\nconst kali = function(a, b) {\n  return a * b;\n};",
+      "html_example": "<script>\n  function showMessage() {\n    alert('Hello World!');\n  }\n  showMessage();\n</script>"
+    },
+    {
+      "id": 6,
+      "title": "Object JavaScript",
+      "content": "Object adalah koleksi properti (key-value pairs). Bisa dibuat dengan literal syntax, constructor, atau class. Mendukung methods dan properties.",
+      "example": "// Object literal\nlet person = {\n  nama: 'John Doe',\n  usia: 25,\n  sapa: function() {\n    return `Halo, saya ${this.nama}`;\n  }\n};\n\n// Access properties\nconsole.log(person.nama); // John Doe\nconsole.log(person.sapa()); // Halo, saya John Doe",
+      "html_example": "<script>\n  let car = {\n    brand: 'Toyota',\n    model: 'Camry',\n    start: function() {\n      return `${this.brand} ${this.model} started!`;\n    }\n  };\n  console.log(car.start());\n</script>"
+    },
+    {
+      "id": 7,
+      "title": "Date Object",
+      "content": "Date object untuk manipulasi tanggal dan waktu. Methods penting: getFullYear(), getMonth(), getDate(), getTime(), dll. Month dimulai dari 0 (Januari).",
+      "example": "// Create new Date\nlet sekarang = new Date();\n\n// Get methods\nconsole.log(sekarang.getFullYear()); // 2025\nconsole.log(sekarang.getMonth());    // 9 (Oktober)\nconsole.log(sekarang.getDate());     // 18\nconsole.log(sekarang.getTime());     // timestamp\n\n// Format date\nlet formatted = sekarang.toLocaleDateString('id-ID');",
+      "html_example": "<script>\n  let now = new Date();\n  console.log('Tahun: ' + now.getFullYear());\n  console.log('Bulan: ' + (now.getMonth() + 1));\n  console.log('Tanggal: ' + now.getDate());\n</script>"
+    },
+    {
+      "id": 8,
+      "title": "DOM Manipulation",
+      "content": "DOM (Document Object Model) adalah representasi HTML document sebagai tree structure. JavaScript dapat memanipulasi elemen HTML melalui DOM.",
+      "example": "// Get element by ID\nlet header = document.getElementById('header');\n\n// Get elements by class\nlet items = document.getElementsByClassName('item');\n\n// Query selector\nlet button = document.querySelector('.btn-primary');\n\n// Modify content\nheader.textContent = 'New Title';\nbutton.style.backgroundColor = 'blue';",
+      "html_example": "<div id=\"demo\">Original Text</div>\n<script>\n  let demo = document.getElementById('demo');\n  demo.textContent = 'Text Changed!';\n  demo.style.color = 'red';\n</script>"
+    },
+    {
+      "id": 9,
+      "title": "Event Handlers",
+      "content": "Event handlers merespons user interactions seperti click, hover, keypress, etc. Bisa menggunakan inline HTML attributes atau JavaScript event listeners.",
+      "example": "// Inline HTML\n<button onclick=\"handleClick()\">Click Me</button>\n\n// JavaScript event listener\nlet btn = document.getElementById('myBtn');\nbtn.addEventListener('click', function() {\n  alert('Button clicked!');\n});\n\n// Event object\nbtn.addEventListener('click', function(event) {\n  console.log(event.target); // element yang diklik\n});",
+      "html_example": "<button id=\"clickBtn\">Click Me</button>\n<script>\n  document.getElementById('clickBtn').addEventListener('click', function() {\n    alert('Button clicked!');\n  });\n</script>"
+    },
+    {
+      "id": 10,
+      "title": "onClick() Method",
+      "content": "onClick() adalah salah satu event handler paling umum untuk mouse clicks. Bisa digunakan langsung di HTML atau melalui JavaScript.",
+      "example": "// HTML onclick attribute\n<button onclick=\"alert('Clicked!')\">Click</button>\n\n// JavaScript onclick property\nlet btn = document.getElementById('btn');\nbtn.onclick = function() {\n  console.log('Button clicked');\n};\n\n// Multiple handlers dengan addEventListener\nbtn.addEventListener('click', handler1);\nbtn.addEventListener('click', handler2);",
+      "html_example": "<button onclick=\"showAlert()\">Show Alert</button>\n<script>\n  function showAlert() {\n    alert('Hello from onClick!');\n  }\n</script>"
+    },
+    {
+      "id": 11,
+      "title": "Array Methods",
+      "content": "Array methods untuk manipulasi data: push/pop (add/remove end), shift/unshift (add/remove start), map, filter, reduce, forEach, etc.",
+      "example": "let numbers = [1, 2, 3, 4, 5];\n\n// Add/remove\nnumbers.push(6);       // [1,2,3,4,5,6]\nnumbers.pop();         // [1,2,3,4,5]\n\n// Transformation\nlet doubled = numbers.map(n => n * 2); // [2,4,6,8,10]\nlet filtered = numbers.filter(n => n > 3); // [4,5]\n\n// Iteration\nnumbers.forEach(n => console.log(n));",
+      "html_example": "<script>\n  let fruits = ['Apple', 'Banana', 'Cherry'];\n  fruits.push('Orange');\n  console.log(fruits); // ['Apple', 'Banana', 'Cherry', 'Orange']\n  \n  let filteredFruits = fruits.filter(fruit => fruit.length > 5);\n  console.log(filteredFruits); // ['Banana', 'Orange']\n</script>"
+    },
+    {
+      "id": 12,
+      "title": "Navigasi DOM",
+      "content": "Navigasi DOM untuk traverse element relationships: parentNode, childNodes, children, firstChild, lastChild, nextSibling, previousSibling.",
+      "example": "let element = document.getElementById('myElement');\n\n// Navigasi\nlet parent = element.parentNode;\nlet firstChild = element.firstChild;\nlet children = element.children;\nlet nextSibling = element.nextSibling;\n\n// Query navigasi\nlet specificChild = element.querySelector('.specific');\nlet allChildren = element.querySelectorAll('div');",
+      "html_example": "<div id=\"container\">\n  <p>First paragraph</p>\n  <p class=\"special\">Second paragraph</p>\n  <p>Third paragraph</p>\n</div>\n<script>\n  let container = document.getElementById('container');\n  let firstPara = container.firstChild;\n  let specialPara = container.querySelector('.special');\n  console.log(specialPara.textContent); // Second paragraph\n</script>"
+    }
+  ],
+  "tailwind_topics": [
+    {
+      "id": 1,
+      "title": "Instalasi Tailwind CSS",
+      "content": "Tailwind CSS dapat diinstall melalui npm/yarn. Untuk project native HTML, install via CDN atau build process dengan PostCSS. Untuk framework seperti React/Vue, install package dan konfigurasi tambahan.",
+      "example": "// Install via npm\nnpm install -D tailwindcss\n\n// Initialize config file\nnpx tailwindcss init\n\n// Add to CSS file\n@tailwind base;\n@tailwind components;\n@tailwind utilities;",
+      "html_example": "<!-- CDN untuk project HTML native -->\n<!DOCTYPE html>\n<html>\n<head>\n  <script src=\"https://cdn.tailwindcss.com\"></script>\n</head>\n<body>\n  <h1 class=\"text-3xl font-bold text-blue-600\">Hello Tailwind!</h1>\n</body>\n</html>"
+    },
+    {
+      "id": 2,
+      "title": "Utility Classes Dasar",
+      "content": "Tailwind menggunakan utility classes untuk styling. Kelas yang sering digunakan: text-*, bg-*, p-*, m-*, flex, grid, hidden, block, border, rounded, shadow.",
+      "example": "// Text styling\ntext-xl font-bold text-gray-800\n\n// Background & padding\nbg-blue-500 p-4\n\n// Margin & border\nm-4 border border-2 border-gray-300\n\n// Flexbox\nflex justify-center items-center",
+      "html_example": "<div class=\"bg-blue-100 p-6 rounded-lg shadow-md\">\n  <h2 class=\"text-2xl font-bold text-blue-800 mb-4\">Title</h2>\n  <p class=\"text-gray-600\">Description text here</p>\n  <button class=\"bg-blue-500 text-white px-4 py-2 rounded mt-4\">\n    Click Me\n  </button>\n</div>"
+    },
+    {
+      "id": 3,
+      "title": "Responsive Design",
+      "content": "Tailwind menggunakan breakpoint prefixes: sm:, md:, lg:, xl:, 2xl:. Sangat penting untuk mobile-first development.",
+      "example": "// Mobile first approach\nclass=\"text-base md:text-lg lg:text-xl\"\n\n// Grid responsive\ngrid grid-cols-1 md:grid-cols-2 lg:grid-cols-3\n\n// Hide/show on breakpoint\nhidden md:block",
+      "html_example": "<div class=\"container mx-auto p-4\">\n  <div class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4\">\n    <div class=\"bg-white p-4 rounded shadow\">Item 1</div>\n    <div class=\"bg-white p-4 rounded shadow\">Item 2</div>\n    <div class=\"bg-white p-4 rounded shadow\">Item 3</div>\n  </div>\n  \n  <button class=\"bg-blue-500 text-white px-4 py-2 rounded mt-4 md:mt-8\">\n    Responsive Button\n  </button>\n</div>"
+    },
+    {
+      "id": 4,
+      "title": "Flexbox & Grid",
+      "content": "Tailwind menyediakan classes lengkap untuk Flexbox dan Grid layout. Flexbox: flex, flex-col, justify-*, items-*. Grid: grid, grid-cols-*, gap-*.",
+      "example": "// Flexbox\nflex flex-col md:flex-row justify-between items-center\n\n// Grid\ngrid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4\n\n// Grid template columns\ngrid-cols-4 md:grid-cols-6 lg:grid-cols-8",
+      "html_example": "<div class=\"flex flex-col md:flex-row justify-between items-center p-4 bg-gray-100\">\n  <div class=\"text-xl font-bold\">Logo</div>\n  <nav class=\"flex space-x-4 mt-4 md:mt-0\">\n    <a href=\"#\" class=\"text-blue-600 hover:text-blue-800\">Home</a>\n    <a href=\"#\"1 class=\"text-blue-600 hover:text-blue-800\">About</a>\n    <a href=\"#\" class=\"text-2xl font-bold hover:text-blue-800\">Contact</a>\n  </nav>\n</div>"
+    },
+    {
+      "id": 5,
+      "title": "Hover & Focus States",
+      "content": "Tailwind menyediakan state variants: hover:, focus:, active:, disabled:. Sangat useful untuk interaktivitas.",
+      "example": "// Hover effects\nhover:bg-blue-600 hover:text-white\n\n// Focus states\nfocus:outline-none focus:ring-2 focus:ring-blue-500\n\n// Transition\ntransition duration-300 ease-in-out",
+      "html_example": "<button class=\"bg-blue-500 text-white px-4 py-2 rounded \n         hover:bg-blue-600 focus:outline-none focus:ring-2 \n         focus:ring-blue-500 transition duration-300\">\n  Interactive Button\n</button>"
+    },
+    {
+      "id": 6,
+      "title": "Customization & Configuration",
+      "content": "Tailwind dapat dikustomisasi melalui file tailwind.config.js. Bisa menambah colors, fonts, spacing, breakpoints, dan plugins.",
+      "example": "// tailwind.config.js\nmodule.exports = {\n  content: ['./src/**/*.{html,js}'],\n  theme: {\n    extend: {\n      colors: {\n        'company-blue': '#1e40af',\n      },\n      spacing: {\n        '128': '32rem',\n      }\n    }\n  }\n}",
+      "html_example": "<div class=\"bg-company-blue text-white p-8\">\n  <h1 class=\"text-4xl font-bold\">Custom Company Style</h1>\n  <p class=\"mt-4\">Using customized Tailwind config</p>\n</div>"
+    },
+    {
+      "id": 7,
+      "title": "Dark Mode",
+      "content": "Tailwind mendukung dark mode dengan class dark:. Perlu konfigurasi di tailwind.config.js dan toggle dark mode di HTML.",
+      "example": "// Enable dark mode in config\ndarkMode: 'class',\n\n// Usage\nbg-white dark:bg-gray-800\ntext-gray-900 dark:text-white",
+      "html_example": "<div class=\"bg-white dark:bg-gray-800 p-6\">\n  <h2 class=\"text-gray-900 dark:text-white text-2xl font-bold\">\n    Dark Mode Support\n  </h2>\n  <p class=\"text-gray-600 dark:text-gray-300 mt-2\">\n    This section changes colors in dark mode\n  </p>\n</div>"
+    },
+    {
+      "id": 8,
+      "title": "Best Practices Perusahaan",
+      "content": "Perusahaan biasanya menggunakan: Design tokens, Consistent spacing scale, Custom color palette, Component-driven development dengan @apply, Auto-prefixing untuk production.",
+      "example": "// Design tokens dalam config\ncolors: {\n  primary: '#2563eb',\n  secondary: '#64748b',\n  success: '#22c55e',\n  danger: '#ef4444'\n},\n\n// Component classes\n.btn-primary {\n  @apply bg-primary text-white px-4 py-2 rounded;\n}",
+      "html_example": "<button class=\"btn-primary hover:bg-blue-700 transition\">\n  Primary Button\n</button>\n\n<div class=\"bg-success text-white p-4 rounded\">\n  Success Notification\n</div>"
+    }
+  ],
+  "github_topics": [
+    {
+      "id": 1,
+      "title": "Membuat Repository GitHub",
+      "content": "Repository adalah tempat untuk menyimpan proyek kode. Bisa dibuat langsung di website GitHub atau melalui command line.",
+      "example": "# Membuat repository baru di GitHub\n# 1. Login ke GitHub\n# 2. Klik tombol '+' → 'New repository'\n# 3. Isi nama repository\n# 4. Pilih public/private\n# 5. Klik 'Create repository'",
+      "html_example": "<!-- Setelah repository dibuat, clone ke local -->\n<pre>\ngit clone https://github.com/username/nama-repository.git\ncd nama-repository\n</pre>"
+    },
+    {
+      "id": 2,
+      "title": "Git Basic Commands",
+      "content": "Command dasar Git untuk version control: git init, git add, git commit, git status, git log.",
+      "example": "# Initialize repository\ngit init\n\n# Add files to staging\ngit add .\n\n# Commit changes\ngit commit -m \"Initial commit\"\n\n# Check status\ngit status\n\n# View commit history\ngit log",
+      "html_example": "<!-- Workflow sehari-hari -->\n<pre>\n# Tambahkan perubahan\ngit add .\n\n# Commit dengan pesan\ngit commit -m \"Menambahkan fitur baru\"\n\n# Push ke GitHub\ngit push origin main\n</pre>"
+    },
+    {
+      "id": 3,
+      "title": "GitHub Push & Pull",
+      "content": "Push untuk mengupload changes ke GitHub, Pull untuk download changes dari GitHub.",
+      "example": "# Push changes to GitHub\ngit push origin main\n\n# Pull changes from GitHub\ngit pull origin main\n\n# Set remote origin\ngit remote add origin https://github.com/username/repo.git",
+      "html_example": "<!-- Konfigurasi remote -->\n<pre>\n# Cek remote yang terdaftar\ngit remote -v\n\n# Tambahkan remote\ngit remote add origin https://github.com/user/repo.git\n\n# Push ke branch tertentu\ngit push origin feature-branch\n</pre>"
+    },
+    {
+      "id": 4,
+      "title": "Branching & Merging",
+      "content": "Branch untuk mengisolasi development fitur baru. Merge untuk menggabungkan branch ke main.",
+      "example": "# Create new branch\ngit branch feature-auth\n\n# Switch to branch\ngit checkout feature-auth\n\n# Merge branch to main\ngit checkout main\ngit merge feature-auth\n\n# Delete branch\ngit branch -d feature-auth",
+      "html_example": "<!-- Branch workflow -->\n<pre>\n# Buat dan pindah ke branch baru\ngit checkout -b new-feature\n\n# Kerjakan perubahan, lalu commit\ngit add .\ngit commit -m \"Implement new feature\"\n\n# Kembali ke main dan merge\ngit checkout main\ngit merge new-feature\n</pre>"
+    },
+    {
+      "id": 5,
+      "title": "GitHub Collaboration",
+      "content": "Collaboration dengan fork, pull requests, code review, dan issues untuk teamwork.",
+      "example": "# Fork repository orang lain\n# 1. Kunjungi repo di GitHub\n# 2. Klik 'Fork'\n# 3. Clone fork ke local\n\n# Create pull request\n# 1. Push changes ke fork\n# 2. Klik 'Pull requests' di repo original\n# 3. Klik 'New pull request'",
+      "html_example": "<!-- Kolaborasi tim -->\n<pre>\n# Clone repository tim\ngit clone https://github.com/team/project.git\n\n# Buat branch untuk fitur\ngit checkout -b my-feature\n\n# Setelah selesai, push dan buat PR\ngit push origin my-feature\n# Lalu buat Pull Request di GitHub\n</pre>"
+    },
+    {
+      "id": 6,
+      "title": ".gitignore File",
+      "content": ".gitignore untuk exclude file/folder yang tidak perlu di-track seperti node_modules, env files, logs.",
+      "example": "# Contoh .gitignore untuk React project\nnode_modules/\n.env\n.env.local\n.env.development.local\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*",
+      "html_example": "<!-- File .gitignore -->\n<pre>\n# Dependencies\nnode_modules/\n\n# Environment variables\n.env\n.env.local\n\n# Logs\n*.log\n\n# Build outputs\ndist/\nbuild/\n</pre>"
+    }
+  ]
+}
