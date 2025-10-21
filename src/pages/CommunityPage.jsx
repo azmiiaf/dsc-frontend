@@ -115,6 +115,7 @@ export default function CommunityPage() {
   const [replyInput, setReplyInput] = useState({});
   const [likesCount, setLikesCount] = useState({});
   const [userLikeMap, setUserLikeMap] = useState({});
+  const [replyCounts, setReplyCounts] = useState({});
 
   useEffect(() => {
     ensureAnonIdentity();
@@ -159,7 +160,11 @@ export default function CommunityPage() {
     
     switch (payload.eventType) {
       case 'INSERT':
-        setThreads(current => [payload.new, ...current]);
+        // Remove any temporary threads and add the real one
+        setThreads(current => [
+          payload.new,
+          ...current.filter(t => !t.is_temp)
+        ]);
         fetchLikesCount(payload.new.id);
         fetchUserLike(payload.new.id);
         break;
@@ -182,11 +187,20 @@ export default function CommunityPage() {
 
     switch (payload.eventType) {
       case 'INSERT':
+        // Remove any temporary replies and add the real one
         setRepliesMap(current => ({
           ...current,
-          [threadId]: [...(current[threadId] || []), payload.new].sort((a, b) => 
+          [threadId]: [
+            ...(current[threadId] || []).filter(r => !r.is_temp),
+            payload.new
+          ].sort((a, b) =>
             new Date(a.created_at) - new Date(b.created_at)
           )
+        }));
+        // Update reply count
+        setReplyCounts(current => ({
+          ...current,
+          [threadId]: (current[threadId] || 0) + 1
         }));
         break;
 
@@ -194,6 +208,11 @@ export default function CommunityPage() {
         setRepliesMap(current => ({
           ...current,
           [threadId]: current[threadId]?.filter(r => r.id !== payload.old.id) || []
+        }));
+        // Update reply count
+        setReplyCounts(current => ({
+          ...current,
+          [threadId]: Math.max(0, (current[threadId] || 1) - 1)
         }));
         break;
 
@@ -280,6 +299,7 @@ export default function CommunityPage() {
       (data || []).forEach((t) => {
         fetchLikesCount(t.id);
         fetchUserLike(t.id);
+        fetchReplyCount(t.id);
       });
     } catch (unexpected) {
       console.error("Unexpected fetch error:", unexpected);
@@ -311,6 +331,30 @@ export default function CommunityPage() {
     } catch (e) {
       console.warn("fetchLikesCount failed:", e);
       setLikesCount((s) => ({ ...s, [threadId]: 0 }));
+    }
+  }
+
+  async function fetchReplyCount(threadId) {
+    try {
+      const runner = async () => {
+        const { count, error } = await supabase
+          .from("thread_replies")
+          .select("*", { count: "exact", head: true })
+          .eq("thread_id", threadId);
+        if (error) {
+          const e = error;
+          e.message = error.message || JSON.stringify(error);
+          e.code = error.code;
+          throw e;
+        }
+        return count || 0;
+      };
+
+      const count = await requestWithRetry(runner, { retries: 3, delay: 400 });
+      setReplyCounts((s) => ({ ...s, [threadId]: count }));
+    } catch (e) {
+      console.warn("fetchReplyCount failed:", e);
+      setReplyCounts((s) => ({ ...s, [threadId]: 0 }));
     }
   }
 
@@ -414,7 +458,7 @@ export default function CommunityPage() {
     }
   }
 
-  // Modify postReply to remove manual reply addition
+  // Modify postReply to provide immediate feedback while waiting for realtime
   async function postReply(threadId) {
     try {
       const text = (replyInput[threadId] || "").trim();
@@ -428,18 +472,42 @@ export default function CommunityPage() {
         anonymous_username: ctx.isAnon ? ctx.username : null,
       };
 
+      // Create temporary reply for immediate UI update
+      const tempReply = {
+        id: `temp-${Date.now()}`,
+        thread_id: threadId,
+        content: text,
+        author_id: ctx.id,
+        anonymous_username: ctx.isAnon ? ctx.username : null,
+        created_at: new Date().toISOString(),
+        is_temp: true
+      };
+
+      // Immediately update UI
+      setRepliesMap(current => ({
+        ...current,
+        [threadId]: [...(current[threadId] || []), tempReply].sort((a, b) =>
+          new Date(a.created_at) - new Date(b.created_at)
+        )
+      }));
+
       const { error } = await safeInsertRetryable("thread_replies", payload);
       if (error) throw error;
 
-      // Don't manually update state - realtime will handle it
       setReplyInput((s) => ({ ...s, [threadId]: "" }));
     } catch (err) {
       console.error("postReply error:", err);
       alert("Gagal mengirim reply. Cek console/network untuk detail.");
+      
+      // Remove temporary reply on error
+      setRepliesMap(current => ({
+        ...current,
+        [threadId]: (current[threadId] || []).filter(r => !r.is_temp)
+      }));
     }
   }
 
-  // Modify createThread to rely on realtime updates
+  // Modify createThread to provide immediate feedback
   const createThread = async () => {
     try {
       if (!newThread.title?.trim()) {
@@ -455,15 +523,32 @@ export default function CommunityPage() {
         anonymous_username: ctx.isAnon ? ctx.username : null,
       };
 
+      // Create temporary thread for immediate UI update
+      const tempThread = {
+        id: `temp-${Date.now()}`,
+        title: newThread.title,
+        content: newThread.content,
+        author_id: ctx.id,
+        anonymous_username: ctx.isAnon ? ctx.username : null,
+        created_at: new Date().toISOString(),
+        is_temp: true
+      };
+
+      // Immediately update UI
+      setThreads(current => [tempThread, ...current]);
+
       const { error } = await safeInsertRetryable("community_threads", payload);
       if (error) throw error;
 
-      // Clear form - realtime will handle state update
-      setNewThread({ title: "", content: "" });
+      // Clear form
+      setNewThread({ title: "",  content: "" });
       setShowCreateForm(false);
     } catch (err) {
       console.error("createThread error:", err);
       alert("Gagal membuat thread. Cek console untuk detail.");
+      
+      // Remove temporary thread on error
+      setThreads(current => current.filter(t => !t.is_temp));
     }
   };
 
@@ -591,7 +676,7 @@ export default function CommunityPage() {
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                       </svg>
-                      <span className="text-sm">{(repliesMap[thread.id] || []).length}</span>
+                      <span className="text-sm">{replyCounts[thread.id] ?? 0}</span>
                     </button>
 
                     {/* Share Button */}
