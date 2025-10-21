@@ -33,7 +33,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <div className="w-16 rounded-lg mr-2">
           <img src="/img/logogdg.png" alt="GDG Logo" />
         </div>
-        <h1 className="font-bold text-xl">DSC-FrontEnd</h1>
+        <h1 className="font-bold text-xl">GDSC-FrontEnd</h1>
       </div>
       <nav className="space-y-3">
         <Link

@@ -137,10 +137,20 @@ export default function CommunityPage() {
       }, handleReplyChange)
       .subscribe();
 
+    // Add realtime subscription for likes
+    const likesChannel = supabase.channel('public:thread_likes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'thread_likes'
+      }, handleLikeChange)
+      .subscribe();
+
     // Cleanup on unmount
     return () => {
       threadsChannel.unsubscribe();
       repliesChannel.unsubscribe();
+      likesChannel.unsubscribe();
     };
   }, []);
 
@@ -194,6 +204,49 @@ export default function CommunityPage() {
             r.id === payload.new.id ? payload.new : r
           ) || []
         }));
+        break;
+    }
+  };
+
+  const handleLikeChange = (payload) => {
+    const threadId = payload.new?.thread_id || payload.old?.thread_id;
+    if (!threadId) return;
+
+    switch (payload.eventType) {
+      case 'INSERT':
+        // Update likes count
+        setLikesCount(current => ({
+          ...current,
+          [threadId]: (current[threadId] || 0) + 1
+        }));
+        
+        // Check if this is the current user's like
+        getUserContext().then(ctx => {
+          if (payload.new?.user_id === ctx.id) {
+            setUserLikeMap(current => ({
+              ...current,
+              [threadId]: true
+            }));
+          }
+        });
+        break;
+        
+      case 'DELETE':
+        // Update likes count
+        setLikesCount(current => ({
+          ...current,
+          [threadId]: Math.max(0, (current[threadId] || 1) - 1)
+        }));
+        
+        // Check if this is the current user's like
+        getUserContext().then(ctx => {
+          if (payload.old?.user_id === ctx.id) {
+            setUserLikeMap(current => ({
+              ...current,
+              [threadId]: false
+            }));
+          }
+        });
         break;
     }
   };
