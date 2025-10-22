@@ -122,29 +122,44 @@ export default function CommunityPage() {
     fetchThreads();
 
     // Set up realtime subscriptions
-    const threadsChannel = supabase.channel('public:community_threads')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'community_threads'
-      }, handleThreadChange)
+    const threadsChannel = supabase
+      .channel("public:community_threads")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "community_threads",
+        },
+        handleThreadChange
+      )
       .subscribe();
 
-    const repliesChannel = supabase.channel('public:thread_replies')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'thread_replies'
-      }, handleReplyChange)
+    const repliesChannel = supabase
+      .channel("public:thread_replies")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "thread_replies",
+        },
+        handleReplyChange
+      )
       .subscribe();
 
     // Add realtime subscription for likes
-    const likesChannel = supabase.channel('public:thread_likes')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'thread_likes'
-      }, handleLikeChange)
+    const likesChannel = supabase
+      .channel("public:thread_likes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "thread_likes",
+        },
+        handleLikeChange
+      )
       .subscribe();
 
     // Cleanup on unmount
@@ -156,26 +171,26 @@ export default function CommunityPage() {
   }, []);
 
   const handleThreadChange = (payload) => {
-    console.log('Thread change:', payload);
-    
+    console.log("Thread change:", payload);
+
     switch (payload.eventType) {
-      case 'INSERT':
+      case "INSERT":
         // Remove any temporary threads and add the real one
-        setThreads(current => [
+        setThreads((current) => [
           payload.new,
-          ...current.filter(t => !t.is_temp)
+          ...current.filter((t) => !t.is_temp),
         ]);
         fetchLikesCount(payload.new.id);
         fetchUserLike(payload.new.id);
         break;
-        
-      case 'DELETE':
-        setThreads(current => current.filter(t => t.id !== payload.old.id));
+
+      case "DELETE":
+        setThreads((current) => current.filter((t) => t.id !== payload.old.id));
         break;
-        
-      case 'UPDATE':
-        setThreads(current => 
-          current.map(t => t.id === payload.new.id ? payload.new : t)
+
+      case "UPDATE":
+        setThreads((current) =>
+          current.map((t) => (t.id === payload.new.id ? payload.new : t))
         );
         break;
     }
@@ -186,42 +201,42 @@ export default function CommunityPage() {
     if (!threadId) return;
 
     switch (payload.eventType) {
-      case 'INSERT':
+      case "INSERT":
         // Remove any temporary replies and add the real one
-        setRepliesMap(current => ({
+        setRepliesMap((current) => ({
           ...current,
           [threadId]: [
-            ...(current[threadId] || []).filter(r => !r.is_temp),
-            payload.new
-          ].sort((a, b) =>
-            new Date(a.created_at) - new Date(b.created_at)
-          )
+            ...(current[threadId] || []).filter((r) => !r.is_temp),
+            payload.new,
+          ].sort((a, b) => new Date(a.created_at) - new Date(b.created_at)),
         }));
         // Update reply count
-        setReplyCounts(current => ({
+        setReplyCounts((current) => ({
           ...current,
-          [threadId]: (current[threadId] || 0) + 1
+          [threadId]: (current[threadId] || 0) + 1,
         }));
         break;
 
-      case 'DELETE':
-        setRepliesMap(current => ({
+      case "DELETE":
+        setRepliesMap((current) => ({
           ...current,
-          [threadId]: current[threadId]?.filter(r => r.id !== payload.old.id) || []
+          [threadId]:
+            current[threadId]?.filter((r) => r.id !== payload.old.id) || [],
         }));
         // Update reply count
-        setReplyCounts(current => ({
+        setReplyCounts((current) => ({
           ...current,
-          [threadId]: Math.max(0, (current[threadId] || 1) - 1)
+          [threadId]: Math.max(0, (current[threadId] || 1) - 1),
         }));
         break;
 
-      case 'UPDATE':
-        setRepliesMap(current => ({
+      case "UPDATE":
+        setRepliesMap((current) => ({
           ...current,
-          [threadId]: current[threadId]?.map(r => 
-            r.id === payload.new.id ? payload.new : r
-          ) || []
+          [threadId]:
+            current[threadId]?.map((r) =>
+              r.id === payload.new.id ? payload.new : r
+            ) || [],
         }));
         break;
     }
@@ -232,37 +247,37 @@ export default function CommunityPage() {
     if (!threadId) return;
 
     switch (payload.eventType) {
-      case 'INSERT':
+      case "INSERT":
         // Update likes count
-        setLikesCount(current => ({
+        setLikesCount((current) => ({
           ...current,
-          [threadId]: (current[threadId] || 0) + 1
+          [threadId]: (current[threadId] || 0) + 1,
         }));
-        
+
         // Check if this is the current user's like
-        getUserContext().then(ctx => {
+        getUserContext().then((ctx) => {
           if (payload.new?.user_id === ctx.id) {
-            setUserLikeMap(current => ({
+            setUserLikeMap((current) => ({
               ...current,
-              [threadId]: true
+              [threadId]: true,
             }));
           }
         });
         break;
-        
-      case 'DELETE':
+
+      case "DELETE":
         // Update likes count
-        setLikesCount(current => ({
+        setLikesCount((current) => ({
           ...current,
-          [threadId]: Math.max(0, (current[threadId] || 1) - 1)
+          [threadId]: Math.max(0, (current[threadId] || 1) - 1),
         }));
-        
+
         // Check if this is the current user's like
-        getUserContext().then(ctx => {
+        getUserContext().then((ctx) => {
           if (payload.old?.user_id === ctx.id) {
-            setUserLikeMap(current => ({
+            setUserLikeMap((current) => ({
               ...current,
-              [threadId]: false
+              [threadId]: false,
             }));
           }
         });
@@ -273,7 +288,7 @@ export default function CommunityPage() {
   useEffect(() => {
     ensureAnonIdentity();
     fetchThreads();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next1ine react-hooks/exhaustive-deps
   }, []);
 
   async function fetchThreads() {
@@ -326,7 +341,10 @@ export default function CommunityPage() {
         return count || 0;
       };
 
-      const count = await requestWithRetry(() => runner(), { retries: 3, delay: 400 });
+      const count = await requestWithRetry(() => runner(), {
+        retries: 3,
+        delay: 400,
+      });
       setLikesCount((s) => ({ ...s, [threadId]: count }));
     } catch (e) {
       console.warn("fetchLikesCount failed:", e);
@@ -416,9 +434,15 @@ export default function CommunityPage() {
         };
         await requestWithRetry(delRunner, { retries: 3, delay: 400 });
         setUserLikeMap((s) => ({ ...s, [threadId]: false }));
-        setLikesCount((s) => ({ ...s, [threadId]: Math.max(0, (s[threadId] || 1) - 1) }));
+        setLikesCount((s) => ({
+          ...s,
+          [threadId]: Math.max(0, (s[threadId] || 1) - 1),
+        }));
       } else {
-        const { error } = await safeInsertRetryable("thread_likes", { thread_id: threadId, user_id: userId });
+        const { error } = await safeInsertRetryable("thread_likes", {
+          thread_id: threadId,
+          user_id: userId,
+        });
         if (error) throw error;
         setUserLikeMap((s) => ({ ...s, [threadId]: true }));
         setLikesCount((s) => ({ ...s, [threadId]: (s[threadId] || 0) + 1 }));
@@ -458,56 +482,6 @@ export default function CommunityPage() {
     }
   }
 
-  // Modify postReply to provide immediate feedback while waiting for realtime
-  async function postReply(threadId) {
-    try {
-      const text = (replyInput[threadId] || "").trim();
-      if (!text) return alert("Reply cannot be empty");
-
-      const ctx = await getUserContext();
-      const payload = {
-        thread_id: threadId,
-        content: text,
-        author_id: ctx.id,
-        anonymous_username: ctx.isAnon ? ctx.username : null,
-      };
-
-      // Create temporary reply for immediate UI update
-      const tempReply = {
-        id: `temp-${Date.now()}`,
-        thread_id: threadId,
-        content: text,
-        author_id: ctx.id,
-        anonymous_username: ctx.isAnon ? ctx.username : null,
-        created_at: new Date().toISOString(),
-        is_temp: true
-      };
-
-      // Immediately update UI
-      setRepliesMap(current => ({
-        ...current,
-        [threadId]: [...(current[threadId] || []), tempReply].sort((a, b) =>
-          new Date(a.created_at) - new Date(b.created_at)
-        )
-      }));
-
-      const { error } = await safeInsertRetryable("thread_replies", payload);
-      if (error) throw error;
-
-      setReplyInput((s) => ({ ...s, [threadId]: "" }));
-    } catch (err) {
-      console.error("postReply error:", err);
-      alert("Gagal mengirim reply. Cek console/network untuk detail.");
-      
-      // Remove temporary reply on error
-      setRepliesMap(current => ({
-        ...current,
-        [threadId]: (current[threadId] || []).filter(r => !r.is_temp)
-      }));
-    }
-  }
-
-  // Modify createThread to provide immediate feedback
   const createThread = async () => {
     try {
       if (!newThread.title?.trim()) {
@@ -520,61 +494,61 @@ export default function CommunityPage() {
         title: newThread.title,
         content: newThread.content,
         author_id: ctx.id,
-        anonymous_username: ctx.isAnon ? ctx.username : null,
+        anonymous_username: ctx.isAnon ? ctx.username : null
       };
-
-      // Create temporary thread for immediate UI update
-      const tempThread = {
-        id: `temp-${Date.now()}`,
-        title: newThread.title,
-        content: newThread.content,
-        author_id: ctx.id,
-        anonymous_username: ctx.isAnon ? ctx.username : null,
-        created_at: new Date().toISOString(),
-        is_temp: true
-      };
-
-      // Immediately update UI
-      setThreads(current => [tempThread, ...current]);
 
       const { error } = await safeInsertRetryable("community_threads", payload);
-      if (error) throw error;
+      if (error) {
+        console.error('Database insert error details:', error);
+        if (error.message.includes('row-level security policy')) {
+          throw new Error('RLS Policy Error: Database policies are blocking this operation. Please check RLS policies in Supabase dashboard.');
+        }
+        throw error;
+      }
 
-      // Clear form
-      setNewThread({ title: "",  content: "" });
+      setNewThread({ title: "", content: "" });
       setShowCreateForm(false);
     } catch (err) {
       console.error("createThread error:", err);
-      alert("Gagal membuat thread. Cek console untuk detail.");
-      
-      // Remove temporary thread on error
-      setThreads(current => current.filter(t => !t.is_temp));
+      alert(`Error: ${err.message}\n\nLihat console untuk detail lengkap.`);
+      console.error('Full error object:', err);
     }
   };
 
-  if (loading) {
-    return (
-      <MainLayout title="Community">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        </div>
-      </MainLayout>
-    );
+  // Post reply function
+  async function postReply(threadId) {
+    try {
+      const text = (replyInput[threadId] || "").trim();
+      if (!text) {
+        return alert("Reply tidak boleh kosong");
+      }
+
+      const ctx = await getUserContext();
+      const payload = {
+        thread_id: threadId,
+        content: text,
+        author_id: ctx.id,
+        anonymous_username: ctx.isAnon ? ctx.username : null
+      };
+
+      const { error } = await safeInsertRetryable("thread_replies", payload);
+      if (error) {
+        console.error('Database insert error details:', error);
+        if (error.message.includes('row-level security policy')) {
+          throw new Error('RLS Policy Error: Database policies are blocking this operation. Please check RLS policies in Supabase dashboard.');
+        }
+        throw error;
+      }
+
+      setReplyInput(s => ({ ...s, [threadId]: "" }));
+    } catch (err) {
+      console.error("postReply error:", err);
+      alert(`Error: ${err.message}\n\nLihat console untuk detail lengkap.`);
+      console.error('Full error object:', err);
+    }
   }
 
-  if (error) {
-    return (
-      <MainLayout title="Community">
-        <div className="p-4">
-          <h2 className="text-lg font-semibold mb-2">Community</h2>
-          <div className="text-red-600 mb-2">
-            Tidak dapat memuat thread: {error.message || JSON.stringify(error)}
-          </div>
-        </div>
-      </MainLayout>
-    );
-  }
-
+  // Update JSX
   return (
     <MainLayout title="Community">
       <div className="max-w-2xl mx-auto px-4 py-6">
@@ -592,24 +566,32 @@ export default function CommunityPage() {
         {/* Create Thread Form */}
         {showCreateForm && (
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-6">
-            <h2 className="text-xl font-semibold mb-4 text-gray-900">Create New Thread</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-900">
+              Create New Thread
+            </h2>
             <div className="space-y-4">
               <input
                 type="text"
                 placeholder="What's happening?"
                 value={newThread.title}
-                onChange={(e) => setNewThread({ ...newThread, title: e.target.value })}
+                onChange={(e) =>
+                  setNewThread({ ...newThread, title: e.target.value })
+                }
                 className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-lg"
               />
               <textarea
                 placeholder="Share your thoughts..."
                 value={newThread.content}
-                onChange={(e) => setNewThread({ ...newThread, content: e.target.value })}
+                onChange={(e) =>
+                  setNewThread({ ...newThread, content: e.target.value })
+                }
                 rows={4}
                 className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-lg"
               />
-              <button 
-                onClick={createThread} 
+
+
+              <button
+                onClick={createThread}
                 className="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-full font-medium w-full transition-colors"
               >
                 Post Thread
@@ -621,13 +603,18 @@ export default function CommunityPage() {
         {/* Threads List */}
         <div className="space-y-4">
           {threads.map((thread) => (
-            <div key={thread.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+            <div
+              key={thread.id}
+              className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
+            >
               <div className="flex items-start space-x-4">
                 {/* Avatar */}
                 <div className="flex-shrink-0">
                   <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                     <span className="text-white font-semibold text-sm">
-                      {(thread.anonymous_username || thread.author_id || "A").charAt(0).toUpperCase()}
+                      {(thread.anonymous_username || thread.author_id || "A")
+                        .charAt(0)
+                        .toUpperCase()}
                     </span>
                   </div>
                 </div>
@@ -637,10 +624,14 @@ export default function CommunityPage() {
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center space-x-2">
                       <span className="font-semibold text-gray-900">
-                        {thread.anonymous_username || thread.author_id || "Anonymous"}
+                        {thread.anonymous_username ||
+                          thread.author_id ||
+                          "Anonymous"}
                       </span>
                       <span className="text-gray-500 text-sm">
-                        {thread.created_at ? new Date(thread.created_at).toLocaleDateString() : "Unknown date"}
+                        {thread.created_at
+                          ? new Date(thread.created_at).toLocaleDateString()
+                          : "Unknown date"}
                       </span>
                     </div>
                   </div>
@@ -653,19 +644,34 @@ export default function CommunityPage() {
                     {thread.content}
                   </p>
 
+
                   {/* Actions */}
                   <div className="flex items-center space-x-6 text-gray-500">
                     {/* Like Button */}
                     <button
                       onClick={() => toggleLike(thread.id)}
                       className={`flex items-center space-x-1 transition-colors ${
-                        userLikeMap[thread.id] ? "text-red-500" : "hover:text-red-500"
+                        userLikeMap[thread.id]
+                          ? "text-red-500"
+                          : "hover:text-red-500"
                       }`}
                     >
-                      <svg className="w-5 h-5" fill={userLikeMap[thread.id] ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill={userLikeMap[thread.id] ? "currentColor" : "none"}
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        />
                       </svg>
-                      <span className="text-sm">{likesCount[thread.id] ?? 0}</span>
+                      <span className="text-sm">
+                        {likesCount[thread.id] ?? 0}
+                      </span>
                     </button>
 
                     {/* Reply Button */}
@@ -673,16 +679,38 @@ export default function CommunityPage() {
                       onClick={() => toggleReplies(thread.id)}
                       className="flex items-center space-x-1 hover:text-blue-500 transition-colors"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                        />
                       </svg>
-                      <span className="text-sm">{replyCounts[thread.id] ?? 0}</span>
+                      <span className="text-sm">
+                        {replyCounts[thread.id] ?? 0}
+                      </span>
                     </button>
 
                     {/* Share Button */}
                     <button className="flex items-center space-x-1 hover:text-green-500 transition-colors">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -691,16 +719,35 @@ export default function CommunityPage() {
                   {expandedReplies[thread.id] && (
                     <div className="mt-6 border-t pt-4 space-y-4">
                       {(repliesMap[thread.id] || []).map((reply) => (
-                        <div key={reply.id} className="flex items-start space-x-3">
+                        <div
+                          key={reply.id}
+                          className="flex items-start space-x-3"
+                        >
                           <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
                             <span className="text-white text-xs font-semibold">
-                              {(reply.anonymous_username || reply.author_id || "R").charAt(0).toUpperCase()}
+                              {(
+                                reply.anonymous_username ||
+                                reply.author_id ||
+                                "R"
+                              )
+                                .charAt(0)
+                                .toUpperCase()}
                             </span>
                           </div>
                           <div className="flex-1">
-                            <div className="text-sm text-gray-700">{reply.content}</div>
+                            <div className="text-sm text-gray-700">
+                              {reply.content}
+                            </div>
+
+
                             <div className="text-xs text-gray-400 mt-1">
-                              {reply.anonymous_username || reply.author_id || ""} • {reply.created_at ? new Date(reply.created_at).toLocaleString() : ""}
+                              {reply.anonymous_username ||
+                                reply.author_id ||
+                                ""}{" "}
+                              •{" "}
+                              {reply.created_at
+                                ? new Date(reply.created_at).toLocaleString()
+                                : ""}
                             </div>
                           </div>
                         </div>
@@ -709,16 +756,25 @@ export default function CommunityPage() {
                       {/* Reply Input */}
                       <div className="flex items-start space-x-3 pt-2">
                         <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
-                          <span className="text-gray-600 text-xs font-semibold">Y</span>
+                          <span className="text-gray-600 text-xs font-semibold">
+                            Y
+                          </span>
                         </div>
                         <div className="flex-1">
                           <textarea
                             placeholder="Write a reply..."
                             value={replyInput[thread.id] || ""}
-                            onChange={(e) => setReplyInput((s) => ({ ...s, [thread.id]: e.target.value }))}
+                            onChange={(e) =>
+                              setReplyInput((s) => ({
+                                ...s,
+                                [thread.id]: e.target.value,
+                              }))
+                            }
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-sm"
                             rows={2}
                           />
+
+
                           <div className="flex justify-end mt-2">
                             <button
                               onClick={() => postReply(thread.id)}
@@ -740,11 +796,23 @@ export default function CommunityPage() {
         {threads.length === 0 && !loading && (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              <svg
+                className="w-8 h-8 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                />
               </svg>
             </div>
-            <p className="text-gray-500 text-lg">No threads yet. Be the first to start a discussion!</p>
+            <p className="text-gray-500 text-lg">
+              No threads yet. Be the first to start a discussion!
+            </p>
           </div>
         )}
       </div>
