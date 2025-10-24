@@ -2,6 +2,7 @@ import Sidebar from "../organisms/Sidebar";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../organisms/Header";
+import ClickSpark from "../animation/ClickSpark";
 
 const MainLayout = ({ children,title,display, btnBack }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -11,6 +12,12 @@ const MainLayout = ({ children,title,display, btnBack }) => {
   }
 
   return (
+    <ClickSpark
+    sparkColor="#000"
+    sparkSize={10}
+    sparkRadius={15}
+    sparkCount={8}
+    duration={400}>
     <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col md:flex-row">
       <div className="fixed h-screen z-30">
         <Header btnBack={btnBack} title={`DSC-Frontend ${title} `} display={display} toggleSidebar={toggleSidebar}/>
@@ -29,6 +36,7 @@ const MainLayout = ({ children,title,display, btnBack }) => {
 
      
     </div>
+    </ClickSpark>
   )
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 import MainLayout from "../components/tamplates/MainLayout";
+import LoadingSpinner from "../components/molecules/LoadingSpinner";
 
 /*
   Perubahan utama:
@@ -104,10 +105,20 @@ async function safeInsertRetryable(table, payload) {
   }
 }
 
+// Helper function to preserve line breaks
+const formatContentWithLineBreaks = (content) => {
+  if (!content) return '';
+  return content.split('\n').map((line, index) => (
+    <span key={index}>
+      {line}
+      {index < content.split('\n').length - 1 && <br />}
+    </span>
+  ));
+};
+
 export default function CommunityPage() {
   const [threads, setThreads] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newThread, setNewThread] = useState({ title: "", content: "" });
   const [expandedReplies, setExpandedReplies] = useState({});
@@ -293,7 +304,6 @@ export default function CommunityPage() {
 
   async function fetchThreads() {
     setLoading(true);
-    setError(null);
     try {
       const runner = async () => {
         const { data, error } = await supabase
@@ -318,7 +328,6 @@ export default function CommunityPage() {
       });
     } catch (unexpected) {
       console.error("Unexpected fetch error:", unexpected);
-      setError(unexpected);
       setThreads([]);
     } finally {
       setLoading(false);
@@ -589,7 +598,6 @@ export default function CommunityPage() {
                 className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-lg"
               />
 
-
               <button
                 onClick={createThread}
                 className="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-full font-medium w-full transition-colors"
@@ -600,9 +608,12 @@ export default function CommunityPage() {
           </div>
         )}
 
+        {/* Loading Spinner */}
+        {loading && <LoadingSpinner />}
+
         {/* Threads List */}
         <div className="space-y-4">
-          {threads.map((thread) => (
+          {!loading && threads.map((thread) => (
             <div
               key={thread.id}
               className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
@@ -640,10 +651,9 @@ export default function CommunityPage() {
                   <h2 className="text-lg font-semibold text-gray-900 mb-2">
                     {thread.title}
                   </h2>
-                  <p className="text-gray-700 mb-4 leading-relaxed">
-                    {thread.content}
+                  <p className="text-gray-700 mb-4 leading-relaxed whitespace-pre-line">
+                    {formatContentWithLineBreaks(thread.content)}
                   </p>
-
 
                   {/* Actions */}
                   <div className="flex items-center space-x-6 text-gray-500">
@@ -735,8 +745,8 @@ export default function CommunityPage() {
                             </span>
                           </div>
                           <div className="flex-1">
-                            <div className="text-sm text-gray-700">
-                              {reply.content}
+                            <div className="text-sm text-gray-700 whitespace-pre-line">
+                              {formatContentWithLineBreaks(reply.content)}
                             </div>
 
 
