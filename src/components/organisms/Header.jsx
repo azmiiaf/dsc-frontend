@@ -19,7 +19,7 @@ const Header = (props) => {
         
         {showBackButton && (
           <Link to="/" className={`${btnBack} hidden md:block text-gray-500 hover:text-gray-700 mr-4`}>
-            {'<'}
+            <img src="/img/arrow.png" className={`${btnBack} w-8`} alt="" />
           </Link>
         )}
         {/* <Link to="/" className={` ${btnBack} text-gray-500 hover:text-gray-700 mr-4`}>

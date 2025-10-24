@@ -97,6 +97,34 @@
       "content": "Understanding position properties (static, relative, absolute, fixed, sticky) crucial untuk complex layouts.",
       "example": ".header {\n  position: fixed;\n  top: 0;\n  width: 100%;\n  z-index: 1000;\n}\n\n.modal {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}",
       "html_example": "<header class=\"header\">\n  Header Fixed\n</header>\n\n<div class=\"modal\">\n  Modal Content\n</div>"
+    },
+    {
+      "id": 7,
+      "title": "Mengubah Background Color dengan CSS",
+      "content": "Background color dapat diubah menggunakan properti CSS background-color. Bisa menggunakan nilai hex, rgb, rgba, hsl, hsla, atau nama warna. Sangat penting untuk aksesibilitas dan desain visual.",
+      "example": "/* Menggunakan nama warna */\nbody {\n  background-color: white;\n}\n\n/* Menggunakan hex code */\n.header {\n  background-color: #007bff;\n}\n\n/* Menggunakan rgb */\n.card {\n  background-color: rgb(255, 255, 255);\n}\n\n/* Menggunakan rgba dengan opacity */\n.modal {\n  background-color: rgba(0, 0, 0, 0.5);\n}\n\n/* Menggunakan hsl */\n.section {\n  background-color: hsl(210, 100%, 50%);\n}",
+      "html_example": "<div style=\"background-color: #f0f8ff; padding: 20px;\">\n  <h2>Div dengan Background Color</h2>\n  <p>Ini adalah contoh div dengan background color light blue menggunakan hex code.</p>\n</div>\n\n<div style=\"background-color: rgba(255, 0, 0, 0.1); padding: 20px; margin-top: 10px;\">\n  <h2>Div dengan RGBA Transparency</h2>\n  <p>Background dengan opacity 10% menggunakan rgba.</p>\n</div>"
+    },
+    {
+      "id": 8,
+      "title": "CSS Selectors dan Specificity",
+      "content": "CSS selectors digunakan untuk memilih elemen HTML yang akan di-styling. Specificity menentukan prioritas ketika multiple rules target elemen yang sama. Selector yang lebih spesifik memiliki prioritas lebih tinggi.",
+      "example": "/* Type selector */\np {\n  color: black;\n}\n\n/* Class selector */\n.text-red {\n  color: red;\n}\n\n/* ID selector */\n#header {\n  background: blue;\n}\n\n/* Attribute selector */\ninput[type=\"text\"] {\n  border: 1px solid #ccc;\n}\n\n/* Pseudo-class */\na:hover {\n  text-decoration: underline;\n}\n\n/* Specificity hierarchy: ID > Class > Type */",
+      "html_example": "<p>Ini adalah paragraf biasa</p>\n<p class=\"text-red\">Ini paragraf dengan class red</p>\n<p id=\"special\" class=\"text-red\">Ini paragraf dengan ID dan class</p>\n\n<input type=\"text\" placeholder=\"Text input\">\n<input type=\"password\" placeholder=\"Password input\">\n\n<a href=\"#\">Link dengan hover effect</a>"
+    },
+    {
+      "id": 9,
+      "title": "CSS Typography dan Font Styling",
+      "content": "Typography adalah seni mengatur teks. CSS menyediakan properti untuk font family, size, weight, style, spacing, dan decoration. Penting untuk readability dan user experience.",
+      "example": "/* Font properties */\nbody {\n  font-family: 'Arial', sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n}\n\n.heading {\n  font-size: 2rem;\n  font-weight: 700;\n  letter-spacing: 0.5px;\n}\n\n.italic {\n  font-style: italic;\n}\n\n.underline {\n  text-decoration: underline;\n}\n\n/* Text alignment */\n.text-center {\n  text-align: center;\n}",
+      "html_example": "<body>\n  <h1 class=\"heading\">Heading dengan font styling</h1>\n  <p class=\"italic\">Teks dengan italic style</p>\n  <p class=\"underline\">Teks dengan underline</p>\n  <p class=\"text-center\">Teks rata tengah</p>\n</body>"
+    },
+    {
+      "id": 10,
+      "title": "CSS Transitions dan Animations",
+      "content": "Transitions untuk perubahan properti yang smooth. Animations untuk efek yang lebih kompleks dengan keyframes. Essential untuk modern UI interactions.",
+      "example": "/* Transition */\n.button {\n  transition: all 0.3s ease-in-out;\n}\n.button:hover {\n  transform: scale(1.05);\n  background-color: #007bff;\n}\n\n/* Animation dengan keyframes */\n@keyframes slideIn {\n  from {\n    transform: translateX(-100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n\n.slide-in {\n  animation: slideIn 0.5s ease-out;\n}\n\n/* Animation properties */\n.fade-in {\n  animation: fadeIn 1s ease-in forwards;\n  opacity: 0;\n}",
+      "html_example": "<button class=\"button\">Button dengan Transition</button>\n\n<div class=\"slide-in\">\n  Elemen dengan slide animation\n</div>\n\n<div class=\"fade-in\">\n  Elemen dengan fade-in animation\n</div>"
     }
   ],
   "javascript_topics": [
@@ -241,6 +269,34 @@
       "content": "Perusahaan biasanya menggunakan: Design tokens, Consistent spacing scale, Custom color palette, Component-driven development dengan @apply, Auto-prefixing untuk production.",
       "example": "// Design tokens dalam config\ncolors: {\n  primary: '#2563eb',\n  secondary: '#64748b',\n  success: '#22c55e',\n  danger: '#ef4444'\n},\n\n// Component classes\n.btn-primary {\n  @apply bg-primary text-white px-4 py-2 rounded;\n}",
       "html_example": "<button class=\"btn-primary hover:bg-blue-700 transition\">\n  Primary Button\n</button>\n\n<div class=\"bg-success text-white p-4 rounded\">\n  Success Notification\n</div>"
+    },
+    {
+      "id": 9,
+      "title": "Mengubah Background Color dengan Tailwind CSS",
+      "content": "Tailwind CSS menyediakan utility classes untuk background color. Kelas dimulai dengan bg-* dan menggunakan color palette yang sudah didefinisikan. Bisa menggunakan warna default atau custom colors dari konfigurasi.",
+      "example": "/* Background color dengan kelas Tailwind */\nclass=\"bg-white\"        // white background\nclass=\"bg-blue-500\"     // blue background (500 shade)\nclass=\"bg-gray-100\"     // light gray background\nclass=\"bg-red-600\"      // red background\nclass=\"bg-green-400\"    // green background\n\n/* Background dengan opacity */\nclass=\"bg-blue-500/50\"  // blue dengan 50% opacity\nclass=\"bg-red-600/25\"   // red dengan 25% opacity\n\n/* Hover states */\nclass=\"bg-blue-500 hover:bg-blue-600\"  // darker blue on hover\n\n/* Dark mode support */\nclass=\"bg-white dark:bg-gray-800\"      // white in light mode, dark gray in dark mode",
+      "html_example": "<div class=\"bg-blue-100 p-6 rounded-lg\">\n  <h2 class=\"text-2xl font-bold text-blue-800\">Background Blue Light</h2>\n  <p class=\"text-blue-600\">Ini adalah contoh dengan bg-blue-100</p>\n</div>\n\n<div class=\"bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg mt-4\">\n  <h2 class=\"text-2xl font-bold\">Gradient Background</h2>\n  <p>Background gradient dari blue ke purple</p>\n</div>\n\n<button class=\"bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors mt-4\">\n  Button dengan Hover Effect\n</button>"
+    },
+    {
+      "id": 10,
+      "title": "Tailwind Spacing dan Sizing",
+      "content": "Tailwind menyediakan sistem spacing dan sizing yang konsisten. Menggunakan scale berdasarkan rem units. p-* untuk padding, m-* untuk margin, w-* untuk width, h-* untuk height.",
+      "example": "/* Spacing classes */\np-4          // padding: 1rem\npx-6         // padding-left & right: 1.5rem\npy-2         // padding-top & bottom: 0.5rem\nmt-8         // margin-top: 2rem\nmb-4         // margin-bottom: 1rem\nmx-auto      // margin-left & right: auto\n\n/* Sizing classes */\nw-full       // width: 100%\nw-64         // width: 16rem\nh-screen     // height: 100vh\nh-12         // height: 3rem\nmin-h-screen // min-height: 100vh\nmax-w-xl     // max-width: 36rem",
+      "html_example": "<div class=\"p-6 border border-gray-200 rounded-lg\">\n  <div class=\"w-full h-48 bg-gray-100 mb-4\">\n    Container dengan full width dan fixed height\n  </div>\n  <div class=\"flex space-x-4\">\n    <div class=\"w-16 h-16 bg-blue-500\"></div>\n    <div class=\"w-32 h-16 bg-green-500\"></div>\n    <div class=\"w-48 h-16 bg-red-500\"></div>\n  </div>\n  <button class=\"mt-6 px-6 py-2 bg-blue-500 text-white rounded\">\n    Button dengan spacing\n  </button>\n</div>"
+    },
+    {
+      "id": 11,
+      "title": "Tailwind Typography Plugin",
+      "content": "Tailwind Typography Plugin untuk styling konten teks yang rich seperti artikel, blog posts, dan markdown content. Menyediakan kelas prose untuk konsistensi typography.",
+      "example": "<!-- Install plugin terlebih dahulu -->\n// tailwind.config.js\nmodule.exports = {\n  plugins: [require('@tailwindcss/typography')]\n}\n\n/* Usage */\nclass=\"prose\"                 // Basic typography\nclass=\"prose prose-lg\"        // Large typography\nclass=\"prose prose-blue\"      // Blue color scheme\nclass=\"prose max-w-none\"      // Remove max-width\n\n/* Customization */\nclass=\"prose prose-headings:font-bold\"",
+      "html_example": "<article class=\"prose prose-lg max-w-2xl mx-auto\">\n  <h1>Judul Artikel</h1>\n  <p>Ini adalah paragraf pertama dari artikel. Typography plugin akan mengatur semua elemen teks secara konsisten.</p>\n  <h2>Subheading</h2>\n  <p>Paragraf berikutnya dengan styling yang konsisten. List akan otomatis ter-styling:</p>\n  <ul>\n    <li>Item list pertama</li>\n    <li>Item list kedua</li>\n    <li>Item list ketiga</li>\n  </ul>\n  <blockquote>\n    Ini adalah blockquote yang juga ter-styling otomatis\n  </blockquote>\n</article>"
+    },
+    {
+      "id": 12,
+      "title": "Tailwind Forms Plugin",
+      "content": "Tailwind Forms Plugin untuk styling form elements yang konsisten. Reset form styles dan memberikan styling yang matching dengan Tailwind design system.",
+      "example": "<!-- Install plugin -->\n// tailwind.config.js\nmodule.exports = {\n  plugins: [require('@tailwindcss/forms')]\n}\n\n/* Form elements akan ter-styling otomatis */\n<input type=\"text\" class=\"...\">\n<select class=\"...\">\n<textarea class=\"...\">\n<checkbox class=\"...\">\n<radio class=\"...\">\n\n/* Custom form styling */\ninput:focus {\n  /* Custom focus styles */\n}",
+      "html_example": "<form class=\"space-y-4 max-w-md mx-auto\">\n  <div>\n    <label class=\"block text-sm font-medium text-gray-700\">Nama</label>\n    <input type=\"text\" class=\"mt-1 block w-full rounded-md border-gray-300 shadow-sm\">\n  </div>\n  <div>\n    <label class=\"block text-sm font-medium text-gray-700\">Email</label>\n    <input type=\"email\" class=\"mt-1 block w-full rounded-md border-gray-300 shadow-sm\">\n  </div>\n  <div>\n    <label class=\"block text-sm font-medium text-gray-700\">Pesan</label>\n    <textarea rows=\"3\" class=\"mt-1 block w-full rounded-md border-gray-300 shadow-sm\"></textarea>\n  </div>\n  <button type=\"submit\" class=\"bg-blue-500 text-white px-4 py-2 rounded\">\n    Submit\n  </button>\n</form>"
     }
   ],
   "github_topics": [
