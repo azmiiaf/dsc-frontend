@@ -17,7 +17,7 @@ const Dashboard = () => {
   return (
     <MainLayout title='' btnBack='hidden' >
         <div className="flex flex-wrap gap-3">
-          <Card title="Belajar Dasar HTMl" route="/html" img={htmlImg} bg='bg-yellow-500'/>
+          <Card title="Belajar Dasar HTML" route="/html" img={htmlImg} bg='bg-yellow-500'/>
           <Card title="Belajar Dasar CSS" route="/css" img={cssImg} bg='bg-green-600' />
           <Card title="Belajar Dasar Javascript" route="/js" img={jsImg} bg='bg-red-600' />
           <Card title="Belajar Tailwind CSS" route="/tailwind" img={tailwindImg} bg='bg-blue-600' />
